@@ -3,7 +3,7 @@ name: build-deploy
 on:
   push:
     branches:
-      - main
+      - main   # 👈 triggers on pushes to your main branch
 
 permissions:
   contents: write
@@ -12,31 +12,31 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: final-exam   # 👈 ensures npm runs inside final-exam
-
     steps:
+      # 1. Checkout your repo
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2. Setup Node.js
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # 4. Build your project
       - name: Build
         run: npm run build
 
+      # 5. Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: final-exam/dist   # 👈 deploys the correct build output
+          publish_dir: dist   # 👈 Vite outputs here by default
           commit_message: ${{ github.event.head_commit.message }}
           force_orphan: true
           publish_branch: gh-pages
-
