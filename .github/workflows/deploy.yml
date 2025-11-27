@@ -32,3 +32,4 @@ jobs:
           user_email: jssuth@users.noreply.github.com
           enable_jekyll: false
           force_orphan: true
+          publish_branch: gh-pages
